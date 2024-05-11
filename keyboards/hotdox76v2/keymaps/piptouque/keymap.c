@@ -89,7 +89,7 @@ KC_NO,    KC_NO,    KC_NO,    KC_TRNS,    KC_TRNS,    KC_NO,    KC_NO,
 KC_NO,    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,
 MO(L_NAV_L),    KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,
 KC_TAB,    KC_NO,  KC_NO,   KC_NO,  KC_NO, KC_NO,    KC_NO,
-KC_LGUI,    KC_LCTL,   KC_LALT,  KC_LSFT, SH_T(KC_ESC),
+KC_LGUI,    KC_LCTL,   KC_LALT,  KC_LSFT, MT(MOD_RALT, KC_ESC),
                             MO(L_SYMB),  OSL(L_MNTC),
                                 TO(L_BEPO),
                         TD(SPC_ENT),    TD(BSPC_DEL),  KC_RALT,
@@ -99,7 +99,7 @@ KC_LGUI,    KC_LCTL,   KC_LALT,  KC_LSFT, SH_T(KC_ESC),
         KC_NO,    KC_NO,  KC_NO,  KC_NO,    KC_NO,   KC_NO,   KC_NO,
             KC_NO,  KC_NO,  KC_NO,  KC_NO, KC_NO,   MO(L_NAV_R),
         KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_TAB,
-                SH_T(KC_ESC),  KC_RSFT,  KC_LALT,  KC_RCTL,    KC_RGUI,
+                MT(MOD_RALT, KC_ESC),  KC_RSFT,  KC_LALT,  KC_RCTL,    KC_RGUI,
 OSL(L_MNTC),  MO(L_SYMB),
 KC_NO,
 KC_RALT,  TD(BSPC_DEL),  TD(SPC_ENT)),
@@ -154,7 +154,7 @@ KC_TRNS,    KC_NO,  KC_CUT,   KC_COPY,  KC_PASTE, KC_UNDO,    KC_TRNS,
 KC_TRNS,    KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,
                             KC_TRNS,  KC_TRNS,
                                 KC_TRNS,
-                        KC_TRNS,    KC_TRNS,  KC_TRNS,
+                        KC_MS_BTN1,    KC_MS_BTN2,  KC_TRNS,
 
 /* Right hand */
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,
@@ -249,9 +249,13 @@ bool caps_word_press_user(uint16_t keycode) {
         //case KC_MINS:
             add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
             return true;
+        case KC_SPC:
+            return get_mods() & MOD_BIT(KC_RALT);
         // Keycodes that continue Caps Word, without shifting.
         case BP_1 ... BP_0:
-        case BP_UNDS:
+        case BP_MINS:
+        case KC_DEL:
+        case KC_BSPC:
             return true;
         default:
             return false;  // Deactivate Caps Word.

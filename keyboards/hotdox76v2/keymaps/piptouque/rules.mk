@@ -9,7 +9,7 @@ CAPS_WORD_ENABLE = yes
 AUTO_SHIFT_ENABLE = no
 #
 TAP_DANCE_ENABLE = yes
-SWAP_HANDS_ENABLE = yes
+# SWAP_HANDS_ENABLE = yes
 
 # Optimisation / firmware size reduction
 LTO_ENABLE_ = yes
