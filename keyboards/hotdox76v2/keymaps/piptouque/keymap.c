@@ -101,7 +101,7 @@ KC_LGUI,    KC_LCTL,   KC_LALT,  KC_LSFT, MT(MOD_RALT, KC_ESC),
         KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_TAB,
                 MT(MOD_RALT, KC_ESC),  KC_RSFT,  KC_LALT,  KC_RCTL,    KC_RGUI,
 OSL(L_MNTC),  MO(L_SYMB),
-KC_NO,
+TO(L_BEPO),
 KC_RALT,  TD(BSPC_DEL),  TD(SPC_ENT)),
 [L_BEPO] = LAYOUT_ergodox(
 
@@ -137,9 +137,9 @@ KC_TRNS, KC_TRNS,  KC_TRNS),
                                KC_TRNS,KC_TRNS,KC_TRNS,
        // right hand
        KC_TRNS, KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,
-       KC_TRNS, KC_TRNS,   FR_7,   FR_8,    FR_9,    KC_TRNS, KC_TRNS,
-                KC_TRNS, FR_4,   FR_5,    FR_6,    KC_TRNS, KC_TRNS,
-       KC_TRNS, FR_0, FR_1,   FR_2,    FR_3,    KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS,   BP_7,   BP_8,    BP_9,    KC_TRNS, KC_TRNS,
+                KC_TRNS, BP_4,   BP_5,    BP_6,    KC_TRNS, KC_TRNS,
+       KC_TRNS, BP_0, BP_1,   BP_2, BP_3,    KC_TRNS, KC_TRNS,
                          KC_TRNS,KC_TRNS, KC_TRNS,    KC_TRNS,  KC_TRNS,
        KC_TRNS, KC_TRNS,
        KC_TRNS,
@@ -249,10 +249,20 @@ bool caps_word_press_user(uint16_t keycode) {
         //case KC_MINS:
             add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
             return true;
+        // IMPORTANT
+        // cannot be handled here
+        // Because caps word and tap dance can't work together
+        // see: https://github.com/qmk/qmk_firmware/issues/19574
+        // As a woraround, we handle space in tap dance
         case KC_SPC:
+        case TD(SPC_ENT):
             return get_mods() & MOD_BIT(KC_RALT);
+
+        case TD(BSPC_DEL):
+            return true;
         // Keycodes that continue Caps Word, without shifting.
         case BP_1 ... BP_0:
+        case KC_KP_1 ... KC_KP_0:
         case BP_MINS:
         case KC_DEL:
         case KC_BSPC:
